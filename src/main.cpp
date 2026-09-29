@@ -7,15 +7,14 @@ const int SERVO_PIN = 9;   // servo signal wire (orange)
 
 // ============ SENSOR LIMITS =============
 const int MIN_CM = 5;      // closer than this is unreliable
-const int MAX_CM = 300;    // PING))) max range, about 3 m
+const int MAX_CM = 60;     // testing range (sensor can reach ~300 cm)
 
 // ========== SMOOTHING SETTINGS ==========
 // Tune these while testing.
-const float ALPHA          = 0.3;  // 0.0-1.0. Lower = smoother but slower to react.
-                                   //          Higher = faster but jumpier.
+const float ALPHA          = 0.8;  // 0.0-1.0. Lower = smoother, higher = faster
 const int MAX_MISSES       = 5;    // this many bad readings in a row = target lost
-const int DEADBAND_DEG     = 2;    // ignore servo moves smaller than this (stops jitter)
-const int PING_INTERVAL_MS = 50;   // time between pings (keep >= 30 so echoes don't overlap)
+const int DEADBAND_DEG     = 1;    // ignore servo moves smaller than this
+const int PING_INTERVAL_MS = 30;   // time between pings (keep >= 30)
 
 Servo servo;
 
@@ -53,7 +52,7 @@ long median3(long a, long b, long c) {
 }
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);    // must match monitor_speed in platformio.ini
   servo.attach(SERVO_PIN);
 
   // Servo self-test: sweep once, then center
